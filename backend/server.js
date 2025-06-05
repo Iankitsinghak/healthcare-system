@@ -8,7 +8,7 @@ const app = express();
 
 // CORS setup with your frontend origin
 app.use(cors({
-  origin: 'https://healthcare-system-tqz3.vercel.app',  // <-- yahan apne Vercel frontend URL daalo
+  origin: 'https://healthcare-system-uzz5.vercel.app',  // <-- yahan apne Vercel frontend URL daalo
   credentials: true,
 }));
 
