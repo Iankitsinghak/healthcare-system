@@ -14,9 +14,12 @@ app.use(cors({
 
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/healthcare', {
+mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  tls: true,
+  tlsAllowInvalidCertificates: false,
+  tlsInsecure: false,
 });
 
 // Add new patient
