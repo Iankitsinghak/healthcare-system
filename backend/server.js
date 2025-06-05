@@ -18,9 +18,10 @@ mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   tls: true,
-  tlsAllowInvalidCertificates: false,
-  tlsInsecure: false,
+  // tlsAllowInvalidCertificates: true,  // Remove this line OR
+  // tlsInsecure: true,                  // Remove this line
 });
+
 
 // Add new patient
 app.post('/patients', async (req, res) => {
