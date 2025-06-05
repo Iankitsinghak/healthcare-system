@@ -5,14 +5,19 @@ const cors = require('cors');
 const Patient = require('./models/Patient');
 
 const app = express();
-app.use(cors());
+
+// CORS setup with your frontend origin
+app.use(cors({
+  origin: 'https://healthcare-system-tqz3.vercel.app',  // <-- yahan apne Vercel frontend URL daalo
+  credentials: true,
+}));
+
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/healthcare', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-
 
 // Add new patient
 app.post('/patients', async (req, res) => {
