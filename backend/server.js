@@ -1,4 +1,4 @@
-require('dotenv').config(); // 
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -6,24 +6,20 @@ const Patient = require('./models/Patient');
 
 const app = express();
 
-// CORS setup with your frontend origin
 app.use(cors({
-  origin: 'https://ephemeral-kheer-c0d436.netlify.app',  // <-- yahan apne Vercel frontend URL daalo
+  origin: 'https://your-frontend.vercel.app',  // ✅ Replace with your actual deployed frontend URL
   credentials: true,
 }));
 
 app.use(express.json());
 
+// MongoDB Connection
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   tls: true,
-  // tlsAllowInvalidCertificates: true,  // Remove this line OR
-  // tlsInsecure: true,                  // Remove this line
 });
 
-
-// Add new patient
 app.post('/patients', async (req, res) => {
   try {
     const patient = new Patient(req.body);
@@ -34,7 +30,6 @@ app.post('/patients', async (req, res) => {
   }
 });
 
-// Get all/search patients
 app.get('/patients', async (req, res) => {
   const query = {};
   if (req.query.name) query.name = { $regex: req.query.name, $options: 'i' };
@@ -42,7 +37,6 @@ app.get('/patients', async (req, res) => {
   res.json(patients);
 });
 
-// Update patient
 app.put('/patients/:id', async (req, res) => {
   try {
     const updated = await Patient.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -52,7 +46,6 @@ app.put('/patients/:id', async (req, res) => {
   }
 });
 
-// Delete patient
 app.delete('/patients/:id', async (req, res) => {
   try {
     await Patient.findByIdAndDelete(req.params.id);
@@ -62,4 +55,10 @@ app.delete('/patients/:id', async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT || 5000, () => console.log('Server running'));
+// ✅ Add a root route to test API
+app.get('/', (req, res) => {
+  res.send('Healthcare API is running');
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
